@@ -1,0 +1,16 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+export function getStaticPaths() {
+  return [{ params: { name: "Card" } }];
+}
+
+const { name } = Astro.params;
+
+const Component = await import("../../components/Card");
+console.log({ Component });
+---
+
+<Layout title={name as string}>
+  <Component />
+</Layout>
