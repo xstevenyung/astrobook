@@ -1,9 +1,15 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Frame from "../components/Frame.astro";
+import { getComponents } from "../utils/components";
+
+const components = getComponents();
 ---
 
 <Layout title="Welcome to Astro.">
-  <Frame name="Card" />
-  <Frame name="Tag.vue" />
+  {
+    components.map((component) => {
+      return <Frame {...component} />;
+    })
+  }
 </Layout>

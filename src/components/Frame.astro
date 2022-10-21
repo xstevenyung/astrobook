@@ -1,5 +1,7 @@
 ---
-export type Props = { name: string };
+import type { Component } from "../utils/components";
+
+export type Props = {} & Component;
 
 const { name } = Astro.props;
 ---
