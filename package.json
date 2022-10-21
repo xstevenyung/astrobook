@@ -12,9 +12,14 @@
   },
   "dependencies": {
     "@astrojs/solid-js": "^1.2.1",
+    "@astrojs/tailwind": "^2.1.1",
     "@astrojs/vue": "^1.2.1",
     "astro": "^1.5.2",
     "solid-js": "^1.4.3",
+    "tailwindcss": "^3.0.24",
     "vue": "^3.2.30"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.3"
   }
 }

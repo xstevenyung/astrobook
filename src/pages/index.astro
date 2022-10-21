@@ -7,9 +7,11 @@ const components = getComponents();
 ---
 
 <Layout title="Welcome to Astro.">
-  {
-    components.map((component) => {
-      return <Frame {...component} />;
-    })
-  }
+  <main class="mx-auto max-w-5xl flex flex-col gap-y-10 py-20">
+    {
+      components.map((component) => {
+        return <Frame {...component} />;
+      })
+    }
+  </main>
 </Layout>

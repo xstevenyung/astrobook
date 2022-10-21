@@ -6,4 +6,6 @@ export type Props = {} & Component;
 const { name } = Astro.props;
 ---
 
-<iframe src={`/components/${name}`}></iframe>
+<div class="rounded-xl border">
+  <iframe src={`/components/${name}`}></iframe>
+</div>

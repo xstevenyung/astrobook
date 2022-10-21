@@ -17,9 +17,11 @@ export type Props = Component;
 const { name } = Astro.params;
 const { extension } = Astro.props;
 
-const Component = await importComponent(name, extension);
+const Component = await importComponent(name as string, extension);
 ---
 
 <Layout title={name as string}>
-  <Component />
+  <main>
+    <Component />
+  </main>
 </Layout>

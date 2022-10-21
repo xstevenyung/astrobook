@@ -1,13 +1,18 @@
+import { readdirSync } from "node:fs";
+import { resolve } from "node:path";
+
 export type Component = {
   name: string;
   extension: string;
 };
 
 export function getComponents(): Array<Component> {
-  return [
-    { name: "Card", extension: "tsx" },
-    { name: "Tag", extension: "vue" },
-  ];
+  return readdirSync(resolve("./src/components"))
+    .filter((filename) => filename !== "Frame.astro")
+    .map((filename) => {
+      const [name, extension] = filename.split(".");
+      return { name, extension };
+    });
 }
 
 export async function importComponent(name: string, extension: string) {
@@ -23,6 +28,11 @@ export async function importComponent(name: string, extension: string) {
 
   if (extension === "vue") {
     const { default: Component } = await import(`../components/${name}.vue`);
+    return Component;
+  }
+
+  if (extension === "astro") {
+    const { default: Component } = await import(`../components/${name}.astro`);
     return Component;
   }
 
