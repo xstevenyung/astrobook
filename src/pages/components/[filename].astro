@@ -1,0 +1,22 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Story, getStories, importComponent } from "../../utils/components";
+
+export async function getStaticPaths() {
+  const stories = await getStories();
+
+  return stories.map((story) => {
+    return { params: { filename: story.filename }, props: { ...story } };
+  });
+}
+
+export type Props = Story;
+
+const { filename, component: Component, props } = Astro.props;
+---
+
+<Layout title={filename}>
+  <main>
+    <Component {...props} />
+  </main>
+</Layout>

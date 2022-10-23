@@ -1,16 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Frame from "../components/Frame.astro";
-import { getComponents } from "../utils/components";
+import { getStories } from "../utils/components";
 
-const components = getComponents();
+const stories = await getStories();
 ---
 
 <Layout title="Welcome to Astro.">
   <main class="mx-auto max-w-5xl flex flex-col gap-y-10 py-20">
     {
-      components.map((component) => {
-        return <Frame {...component} />;
+      stories.map((story) => {
+        return <Frame {...story} />;
       })
     }
   </main>

@@ -1,40 +1,43 @@
 import { readdirSync } from "node:fs";
 import { resolve } from "node:path";
 
-export type Component = {
-  name: string;
-  extension: string;
+export type Story = {
+  filename: string;
+  component: any;
 };
 
-export function getComponents(): Array<Component> {
-  return readdirSync(resolve("./src/components"))
-    .filter((filename) => filename !== "Frame.astro")
-    .map((filename) => {
-      const [name, extension] = filename.split(".");
-      return { name, extension };
+export function getStories(): Promise<Array<Story>> {
+  const stories = readdirSync(resolve("./src/components"))
+    .filter((filename) => {
+      const parts = filename.split(".");
+      return parts[parts.length - 2] === "story";
+    })
+    .map(async (filename) => {
+      const parts = filename.split(".");
+      const filenameWithoutExtension = parts
+        .slice(0, parts.length - 1)
+        .join(".");
+      const extension = parts[parts.length - 1];
+
+      let story;
+
+      if (extension === "ts") {
+        story = (await import(`../components/${filenameWithoutExtension}.ts`))
+          .default;
+      }
+
+      if (extension === "tsx") {
+        story = (await import(`../components/${filenameWithoutExtension}.tsx`))
+          .default;
+      }
+
+      story = story as Omit<Story, "filename">;
+
+      return {
+        filename,
+        ...story,
+      };
     });
-}
 
-export async function importComponent(name: string, extension: string) {
-  if (extension === "tsx") {
-    const { default: Component } = await import(`../components/${name}.tsx`);
-    return Component;
-  }
-
-  if (extension === "jsx") {
-    const { default: Component } = await import(`../components/${name}.jsx`);
-    return Component;
-  }
-
-  if (extension === "vue") {
-    const { default: Component } = await import(`../components/${name}.vue`);
-    return Component;
-  }
-
-  if (extension === "astro") {
-    const { default: Component } = await import(`../components/${name}.astro`);
-    return Component;
-  }
-
-  throw new Error(`Extension ${extension} not supported`);
+  return Promise.all(stories);
 }

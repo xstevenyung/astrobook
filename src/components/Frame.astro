@@ -1,11 +1,11 @@
 ---
-import type { Component } from "../utils/components";
+import type { Story } from "../utils/components";
 
-export type Props = {} & Component;
+export type Props = {} & Story;
 
-const { name } = Astro.props;
+const { filename } = Astro.props;
 ---
 
 <div class="rounded-xl border">
-  <iframe src={`/components/${name}`}></iframe>
+  <iframe src={`/components/${filename}`}></iframe>
 </div>
